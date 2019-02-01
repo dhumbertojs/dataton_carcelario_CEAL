@@ -1,11 +1,13 @@
 #Dataton anticorrupción
 ##Equipo CEAL
+#Aida Bustos
+#David H. Jimenez
 
 setwd("C:\\Users\\Aida\\Documents\\Dataton\\Inp\\CORRUPCIÓN\\Percepción\\INEGI\\ENPOL")
 
 inp = "C:\\Users\\Aida\\Documents\\Dataton\\Inp"
 out = "C:\\Users\\Aida\\Documents\\Dataton\\Out"
-
+graf = "C:\\Users\\Aida\\Documents\\Dataton\\Grafs"
 
 #install.packages("foreign")
 require(foreign)
@@ -193,4 +195,80 @@ write.csv(completa, paste(out, "completa_dataton.csv"), row.names = F)
 #DESCRIPTIVOS(ISH)
 
 ggpairs(completa[,c("autoridad_c", "recluso_c", "pag_comida", "pag_ropa", "juzgado_si", "pobreza", "pobreza_extrema", "sobrepob", "autogob")])
-#ggsave(paste(graf, "corr01.png", sep="\\"), width=12, height=12)
+ggsave(paste(graf, "corr01.png", sep="\\"), width=12, height=12)
+
+#SCATTERPLOTS
+
+ggplot(completa) +
+  geom_point(aes(x = pobreza, y = autoridad_c, size = autoridad_c)) +
+  geom_smooth(aes(x= pobreza, y= autoridad_c), method="lm", formula=y ~ x + I(x^2), se=F, color="blue") +
+  labs(title ="Pobreza y corrupción", 
+       subtitle="Relación entre pobreza estatal y corrupción de autoridades", 
+       y = "% custodio corruptos") +
+  theme_bw() 
+ggsave(paste(graf, "scatter01.png", sep="\\"), width=12, height=9)
+
+
+ggplot(completa) +
+  geom_point(aes(x = pobreza, y = juzgado_si, size = juzgado_si)) +
+  geom_smooth(aes(x= pobreza, y= juzgado_si), method="lm", formula=y ~ x + I(x^2), se=F, color="blue") +
+  labs(title ="Pobreza y reinsidencia", 
+       subtitle="Relación entre pobreza estatal y reinsidencia", 
+       y = "% de reincidir") +
+  theme_bw() 
+ggsave(paste(graf, "scatter02.png", sep="\\"), width=12, height=9)
+
+ggplot(completa) +
+  geom_point(aes(x = pobreza, y = sobrepob, size = sobrepob)) +
+  geom_smooth(aes(x= pobreza, y= sobrepob), method="lm", formula=y ~ x + I(x^2), se=F, color="blue") +
+  labs(title ="Pobreza y sobrepoblación carcelaria", 
+       subtitle="Relación entre pobreza estatal y sobrepoblación", 
+       y = "% de sobrepoblación en prisiones") +
+  theme_bw() 
+ggsave(paste(graf, "scatter03.png", sep="\\"), width=12, height=9)
+
+ggplot(completa) +
+  geom_point(aes(x = pobreza, y = autogob, size = autogob)) +
+  geom_smooth(aes(x= pobreza, y= autogob), method="lm", formula=y ~ x + I(x^2), se=F, color="blue") +
+  labs(title ="Pobreza y autogobierno carcelario", 
+       subtitle="Relación entre pobreza estatal y autogobierno", 
+       y = "% de prisiones en autogobierno") +
+  theme_bw() 
+ggsave(paste(graf, "scatter04.png", sep="\\"), width=12, height=9)
+
+
+ggplot(completa) +
+  geom_point(aes(x = custodio_malt, y = autogob, size = autogob)) +
+  geom_smooth(aes(x= custodio_malt, y= autogob), method="lm", formula=y ~ x + I(x^2), se=F, color="blue") +
+  labs(title ="Maltrato de custudios y autogob", 
+       subtitle="Relación entre maltrato y autogobierno", 
+       y = "% de prisiones en autogobierno") +
+  theme_bw() 
+ggsave(paste(graf, "scatter05.png", sep="\\"), width=12, height=9)
+
+ggplot(completa) +
+  geom_point(aes(x = interno_malt, y = autogob, size = autogob)) +
+  geom_smooth(aes(x= interno_malt, y= autogob), method="lm", formula=y ~ x + I(x^2), se=F, color="blue") +
+  labs(title ="Maltrato de internos y autogob", 
+       subtitle="Relación entre maltrato y autogobierno", 
+       y = "% de prisiones en autogobierno") +
+  theme_bw() 
+ggsave(paste(graf, "scatter06.png", sep="\\"), width=12, height=9)
+
+ggplot(completa) +
+  geom_point(aes(x = interno_malt, y = sobrepob, size = sobrepob)) +
+  geom_smooth(aes(x= interno_malt, y= sobrepob), method="lm", formula=y ~ x + I(x^2), se=F, color="blue") +
+  labs(title ="Maltrato de internos y sobrepoblación", 
+       subtitle="Relación entre maltrato y sobrepoblación", 
+       y = "% de prisiones con sobrepoblación") +
+  theme_bw() 
+ggsave(paste(graf, "scatter07.png", sep="\\"), width=12, height=9)
+
+ggplot(completa) +
+  geom_point(aes(x = custodio_malt, y = sobrepob, size = sobrepob)) +
+  geom_smooth(aes(x= custodio_malt, y= sobrepob), method="lm", formula=y ~ x + I(x^2), se=F, color="blue") +
+  labs(title ="Maltrato de custodios y sobrepoblación", 
+       subtitle="Relación entre maltrato y sobrepoblación", 
+       y = "% de prisiones con sobrepoblación") +
+  theme_bw() 
+ggsave(paste(graf, "scatter08.png", sep="\\"), width=12, height=9)
